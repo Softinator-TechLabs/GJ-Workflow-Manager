@@ -1,0 +1,71 @@
+[2026-02-16 11:58:26] SAD_Integration initialized.
+[2026-02-16 11:58:28] SAD_Integration initialized.
+[2026-02-16 11:58:32] SAD_Integration initialized.
+[2026-02-16 11:58:32] Engine: Transition detected for Post ID 1352. Old: new -> New: publish
+[2026-02-16 11:58:32] Engine: Fired for Post ID 1352. Post Type: scholarly_article
+[2026-02-16 11:58:32] Engine: Retrieving rules...
+[2026-02-16 11:58:32] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 11:58:32] Model: Fetched rules. Type: array
+[2026-02-16 11:58:32] Model: Rule Count: 0
+[2026-02-16 11:58:32] Engine: No rules found in DB. Loading defaults.
+[2026-02-16 11:58:32] Engine: Found 2 rules to evaluate.
+[2026-02-16 11:58:32] Engine: Old status provided: 'new'
+[2026-02-16 11:58:32] Engine: Checking Status Rule [default_1]...
+[2026-02-16 11:58:32] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-16 11:58:32] Engine: Checking Status Rule [default_2]...
+[2026-02-16 11:58:32] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-16 11:58:35] GLOBAL DEBUG: save_post fired for ID 1352
+[2026-02-16 11:58:35] Engine: Transition detected for Post ID 1353. Old: new -> New: publish
+[2026-02-16 11:58:35] Engine: Fired for Post ID 1353. Post Type: stt_ticket
+[2026-02-16 11:58:35] Engine: Post type mismatch. Actual: stt_ticket. Expected: scholarly_article.
+[2026-02-16 11:58:35] GLOBAL DEBUG: save_post fired for ID 1353
+[2026-02-16 11:58:39] SAD_Integration initialized.
+[2026-02-16 11:58:42] SAD_Integration initialized.
+[2026-02-16 11:58:44] SAD_Integration initialized.
+[2026-02-16 11:58:44] SAD_Integration initialized.
+[2026-02-16 11:58:54] SAD_Integration initialized.
+[2026-02-16 11:58:56] SAD_Integration initialized.
+[2026-02-16 11:59:04] SAD_Integration initialized.
+[2026-02-16 11:59:07] SAD_Integration initialized.
+[2026-02-16 11:59:08] SAD_Integration initialized.
+[2026-02-16 11:59:10] SAD_Integration initialized.
+[2026-02-16 11:59:11] SAD_Integration initialized.
+[2026-02-16 11:59:11] SAD_Integration initialized.
+[2026-02-16 11:59:11] SAD_Integration initialized.
+[2026-02-16 11:59:15] SAD_Integration initialized.
+[2026-02-16 11:59:16] SAD_Integration initialized.
+[2026-02-16 11:59:26] SAD_Integration initialized.
+[2026-02-16 11:59:28] SAD_Integration initialized.
+[2026-02-16 11:59:29] SAD_Integration initialized.
+[2026-02-16 11:59:29] SAD_Integration initialized.
+[2026-02-16 11:59:29] SAD_Integration initialized.
+[2026-02-16 11:59:31] SAD_Integration initialized.
+[2026-02-16 11:59:32] SAD_Integration initialized.
+[2026-02-16 11:59:42] SAD_Integration initialized.
+[2026-02-16 11:59:42] SAD_Integration initialized.
+[2026-02-16 11:59:43] SAD_Integration initialized.
+[2026-02-16 11:59:43] SAD_Integration initialized.
+[2026-02-16 11:59:43] SAD_Integration initialized.
+[2026-02-16 11:59:53] SAD_Integration initialized.
+[2026-02-16 12:00:03] SAD_Integration initialized.
+[2026-02-16 12:00:13] SAD_Integration initialized.
+[2026-02-16 12:00:23] SAD_Integration initialized.
+[2026-02-16 12:00:27] SAD_Integration initialized.
+[2026-02-16 12:00:29] SAD_Integration initialized.
+[2026-02-16 12:00:34] SAD_Integration initialized.
+[2026-02-16 12:01:45] SAD_Integration initialized.
+[2026-02-16 12:01:46] SAD_Integration initialized.
+[2026-02-16 12:01:53] SAD_Integration initialized.
+[2026-02-16 12:01:56] SAD_Integration initialized.
+[2026-02-16 12:01:56] SAD_Integration initialized.
+[2026-02-16 12:01:57] SAD_Integration initialized.
+[2026-02-16 12:02:06] SAD_Integration initialized.
+[2026-02-16 12:02:53] SAD_Integration initialized.
+[2026-02-16 12:03:57] SAD_Integration initialized.
+[2026-02-16 12:03:58] SAD_Integration initialized.
+[2026-02-16 12:04:07] SAD_Integration initialized.
+[2026-02-16 12:04:54] SAD_Integration initialized.
+[2026-02-16 12:05:58] SAD_Integration initialized.
+[2026-02-16 12:05:59] SAD_Integration initialized.
+[2026-02-16 12:06:08] SAD_Integration initialized.
+[2026-02-16 12:06:55] SAD_Integration initialized.

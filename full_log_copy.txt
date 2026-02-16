@@ -1,0 +1,65 @@
+[2026-02-16 07:25:48] Engine: Transition detected for Post ID 1322. Old: earlyview-launched -> New: earlyview-launched
+[2026-02-16 07:25:48] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-16 07:25:48] Engine: Retrieving rules...
+[2026-02-16 07:25:48] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:25:48] Model: Fetched rules. Type: array
+[2026-02-16 07:25:48] Model: Rule Count: 2
+[2026-02-16 07:25:48] Engine: Found 2 rules to evaluate.
+[2026-02-16 07:25:48] Engine: Old status provided: 'earlyview-launched'
+[2026-02-16 07:25:48] Engine: Checking Status Rule [rule_7j1yg1vlq]...
+[2026-02-16 07:25:48] Engine: Checking Status Rule [rule_u80txjdb6]...
+[2026-02-16 07:25:48] Engine: Rule [rule_u80txjdb6] matched conditions.
+[2026-02-16 07:25:48] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-16 07:25:53] Engine: Transition detected for Post ID 1322. Old: earlyview-launched -> New: earlyview-launched
+[2026-02-16 07:25:53] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-16 07:25:53] Engine: Retrieving rules...
+[2026-02-16 07:25:53] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:25:53] Model: Fetched rules. Type: array
+[2026-02-16 07:25:53] Model: Rule Count: 2
+[2026-02-16 07:25:53] Engine: Found 2 rules to evaluate.
+[2026-02-16 07:25:53] Engine: Old status provided: 'earlyview-launched'
+[2026-02-16 07:25:53] Engine: Checking Status Rule [rule_7j1yg1vlq]...
+[2026-02-16 07:25:53] Engine: Checking Status Rule [rule_u80txjdb6]...
+[2026-02-16 07:25:53] Engine: Rule [rule_u80txjdb6] matched conditions.
+[2026-02-16 07:25:53] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-16 07:29:15] Engine: Transition detected for Post ID 1322. Old: earlyview-launched -> New: earlyview-launched
+[2026-02-16 07:29:15] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-16 07:29:15] Engine: Retrieving rules...
+[2026-02-16 07:29:15] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:29:15] Model: Fetched rules. Type: array
+[2026-02-16 07:29:15] Model: Rule Count: 2
+[2026-02-16 07:29:15] Engine: Found 2 rules to evaluate.
+[2026-02-16 07:29:15] Engine: Old status provided: 'earlyview-launched'
+[2026-02-16 07:29:15] Engine: Checking Status Rule [rule_7j1yg1vlq]...
+[2026-02-16 07:29:15] Engine: Checking Status Rule [rule_u80txjdb6]...
+[2026-02-16 07:29:15] Engine: Rule [rule_u80txjdb6] matched conditions.
+[2026-02-16 07:29:15] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-16 07:32:32] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:32:32] Model: Fetched rules. Type: array
+[2026-02-16 07:32:32] Model: Rule Count: 2
+[2026-02-16 07:39:57] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:39:57] Model: Fetched rules. Type: array
+[2026-02-16 07:39:57] Model: Rule Count: 2
+[2026-02-16 07:48:33] Engine: Transition detected for Post ID 1322. Old: earlyview-launched -> New: earlyview-launched
+[2026-02-16 07:48:33] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-16 07:48:33] Engine: Retrieving rules...
+[2026-02-16 07:48:33] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:48:33] Model: Fetched rules. Type: array
+[2026-02-16 07:48:33] Model: Rule Count: 1
+[2026-02-16 07:48:33] Engine: Found 1 rules to evaluate.
+[2026-02-16 07:48:33] Engine: Old status provided: 'earlyview-launched'
+[2026-02-16 07:48:33] Engine: Checking Status Rule [rule_7j1yg1vlq]...
+[2026-02-16 07:48:33] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-16 07:50:27] Engine: Transition detected for Post ID 1322. Old: earlyview-launched -> New: earlyview-launched
+[2026-02-16 07:50:27] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-16 07:50:27] Engine: Retrieving rules...
+[2026-02-16 07:50:27] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:50:27] Model: Fetched rules. Type: array
+[2026-02-16 07:50:27] Model: Rule Count: 1
+[2026-02-16 07:50:27] Engine: Found 1 rules to evaluate.
+[2026-02-16 07:50:27] Engine: Old status provided: 'earlyview-launched'
+[2026-02-16 07:50:27] Engine: Checking Status Rule [rule_7j1yg1vlq]...
+[2026-02-16 07:50:27] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-16 07:50:57] Model: Fetching option 'sad_workflow_rules'
+[2026-02-16 07:50:57] Model: Fetched rules. Type: array
+[2026-02-16 07:50:57] Model: Rule Count: 1
