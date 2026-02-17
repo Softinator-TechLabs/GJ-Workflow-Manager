@@ -69,3 +69,360 @@
 [2026-02-16 12:05:59] SAD_Integration initialized.
 [2026-02-16 12:06:08] SAD_Integration initialized.
 [2026-02-16 12:06:55] SAD_Integration initialized.
+[2026-02-16 12:07:59] SAD_Integration initialized.
+[2026-02-16 12:08:00] SAD_Integration initialized.
+[2026-02-16 12:08:09] SAD_Integration initialized.
+[2026-02-16 12:08:56] SAD_Integration initialized.
+[2026-02-16 12:10:00] SAD_Integration initialized.
+[2026-02-16 12:10:01] SAD_Integration initialized.
+[2026-02-16 12:10:10] SAD_Integration initialized.
+[2026-02-16 12:10:57] SAD_Integration initialized.
+[2026-02-16 12:12:01] SAD_Integration initialized.
+[2026-02-16 12:12:02] SAD_Integration initialized.
+[2026-02-16 12:12:11] SAD_Integration initialized.
+[2026-02-16 12:25:46] SAD_Integration initialized.
+[2026-02-17 03:36:28] SAD_Integration initialized.
+[2026-02-17 03:36:44] SAD_Integration initialized.
+[2026-02-17 03:36:45] SAD_Integration initialized.
+[2026-02-17 03:36:46] SAD_Integration initialized.
+[2026-02-17 03:36:53] SAD_Integration initialized.
+[2026-02-17 03:36:54] SAD_Integration initialized.
+[2026-02-17 03:36:58] SAD_Integration initialized.
+[2026-02-17 03:36:58] SAD_Integration initialized.
+[2026-02-17 03:36:58] SAD_Integration initialized.
+[2026-02-17 03:37:40] SAD_Integration initialized.
+[2026-02-17 03:37:43] SAD_Integration initialized.
+[2026-02-17 03:37:43] SAD_Integration initialized.
+[2026-02-17 03:37:53] SAD_Integration initialized.
+[2026-02-17 03:37:59] SAD_Integration initialized.
+[2026-02-17 03:38:03] SAD_Integration initialized.
+[2026-02-17 03:38:13] SAD_Integration initialized.
+[2026-02-17 03:38:23] SAD_Integration initialized.
+[2026-02-17 03:38:49] SAD_Integration initialized.
+[2026-02-17 03:39:00] SAD_Integration initialized.
+[2026-02-17 03:39:10] SAD_Integration initialized.
+[2026-02-17 03:39:20] SAD_Integration initialized.
+[2026-02-17 03:39:30] SAD_Integration initialized.
+[2026-02-17 03:39:40] SAD_Integration initialized.
+[2026-02-17 03:39:50] SAD_Integration initialized.
+[2026-02-17 03:39:56] SAD_Integration initialized.
+[2026-02-17 03:39:58] SAD_Integration initialized.
+[2026-02-17 03:40:00] SAD_Integration initialized.
+[2026-02-17 03:40:08] SAD_Integration initialized.
+[2026-02-17 03:40:09] SAD_Integration initialized.
+[2026-02-17 03:40:10] Engine: Transition detected for Post ID 1335. Old: publish -> New: publish
+[2026-02-17 03:40:10] Engine: Fired for Post ID 1335. Post Type: stt_ticket
+[2026-02-17 03:40:10] Engine: Post type mismatch. Actual: stt_ticket. Expected: scholarly_article.
+[2026-02-17 03:40:10] GLOBAL DEBUG: save_post fired for ID 1335
+[2026-02-17 03:40:10] Integration: Ticket #1335 saved. Syncing Article #1322.
+[2026-02-17 03:40:10] SAD_Integration initialized.
+[2026-02-17 03:40:11] SAD_Integration initialized.
+[2026-02-17 03:40:11] SAD_Integration initialized.
+[2026-02-17 03:40:16] SAD_Integration initialized.
+[2026-02-17 03:40:17] SAD_Integration initialized.
+[2026-02-17 03:40:17] SAD_Integration initialized.
+[2026-02-17 03:40:17] SAD_Integration initialized.
+[2026-02-17 03:40:19] SAD_Integration initialized.
+[2026-02-17 03:40:19] SAD_Integration initialized.
+[2026-02-17 03:40:20] SAD_Integration initialized.
+[2026-02-17 03:40:20] SAD_Integration initialized.
+[2026-02-17 03:40:21] SAD_Integration initialized.
+[2026-02-17 03:40:22] SAD_Integration initialized.
+[2026-02-17 03:40:22] SAD_Integration initialized.
+[2026-02-17 03:40:25] SAD_Integration initialized.
+[2026-02-17 03:40:26] SAD_Integration initialized.
+[2026-02-17 03:40:26] SAD_Integration initialized.
+[2026-02-17 03:40:26] Engine: Transition detected for Post ID 1354. Old: new -> New: inherit
+[2026-02-17 03:40:26] Engine: Fired for Post ID 1354. Post Type: revision
+[2026-02-17 03:40:26] Engine: Autosave detected. Aborting.
+[2026-02-17 03:40:26] GLOBAL DEBUG: save_post fired for ID 1354
+[2026-02-17 03:40:26] SAD_Integration initialized.
+[2026-02-17 03:40:33] SAD_Integration initialized.
+[2026-02-17 03:40:36] SAD_Integration initialized.
+[2026-02-17 03:41:21] SAD_Integration initialized.
+[2026-02-17 03:41:25] SAD_Integration initialized.
+[2026-02-17 03:41:28] SAD_Integration initialized.
+[2026-02-17 03:41:29] SAD_Integration initialized.
+[2026-02-17 03:41:31] SAD_Integration initialized.
+[2026-02-17 03:41:32] SAD_Integration initialized.
+[2026-02-17 03:41:32] Engine: Transition detected for Post ID 1322. Old: publish -> New: publish
+[2026-02-17 03:41:32] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-17 03:41:32] Engine: Retrieving rules...
+[2026-02-17 03:41:32] Model: Fetching option 'sad_workflow_rules'
+[2026-02-17 03:41:32] Model: Fetched rules. Type: array
+[2026-02-17 03:41:32] Model: Rule Count: 0
+[2026-02-17 03:41:32] Engine: No rules found in DB. Loading defaults.
+[2026-02-17 03:41:32] Engine: Found 2 rules to evaluate.
+[2026-02-17 03:41:32] Engine: Old status provided: 'publish'
+[2026-02-17 03:41:32] Engine: Checking Status Rule [default_1]...
+[2026-02-17 03:41:32] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 03:41:32] Engine: Checking Status Rule [default_2]...
+[2026-02-17 03:41:32] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 03:41:36] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-17 03:41:36] SAD_Integration initialized.
+[2026-02-17 03:41:37] SAD_Integration initialized.
+[2026-02-17 03:41:37] SAD_Integration initialized.
+[2026-02-17 03:41:40] SAD_Integration initialized.
+[2026-02-17 03:41:40] SAD_Integration initialized.
+[2026-02-17 03:41:40] SAD_Integration initialized.
+[2026-02-17 03:41:40] SAD_Integration initialized.
+[2026-02-17 03:41:51] SAD_Integration initialized.
+[2026-02-17 03:42:01] SAD_Integration initialized.
+[2026-02-17 03:43:32] SAD_Integration initialized.
+[2026-02-17 03:43:52] SAD_Integration initialized.
+[2026-02-17 03:44:02] SAD_Integration initialized.
+[2026-02-17 03:45:25] SAD_Integration initialized.
+[2026-02-17 03:45:33] SAD_Integration initialized.
+[2026-02-17 03:45:35] SAD_Integration initialized.
+[2026-02-17 03:46:20] SAD_Integration initialized.
+[2026-02-17 03:47:34] SAD_Integration initialized.
+[2026-02-17 03:47:36] SAD_Integration initialized.
+[2026-02-17 03:47:37] SAD_Integration initialized.
+[2026-02-17 03:47:41] SAD_Integration initialized.
+[2026-02-17 03:47:41] Engine: Transition detected for Post ID 1355. Old: new -> New: publish
+[2026-02-17 03:47:41] Engine: Fired for Post ID 1355. Post Type: scholarly_article
+[2026-02-17 03:47:41] Engine: Retrieving rules...
+[2026-02-17 03:47:41] Model: Fetching option 'sad_workflow_rules'
+[2026-02-17 03:47:41] Model: Fetched rules. Type: array
+[2026-02-17 03:47:41] Model: Rule Count: 0
+[2026-02-17 03:47:41] Engine: No rules found in DB. Loading defaults.
+[2026-02-17 03:47:41] Engine: Found 2 rules to evaluate.
+[2026-02-17 03:47:41] Engine: Old status provided: 'new'
+[2026-02-17 03:47:41] Engine: Checking Status Rule [default_1]...
+[2026-02-17 03:47:41] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 03:47:41] Engine: Checking Status Rule [default_2]...
+[2026-02-17 03:47:41] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 03:47:45] GLOBAL DEBUG: save_post fired for ID 1355
+[2026-02-17 03:47:45] Engine: Transition detected for Post ID 1356. Old: new -> New: publish
+[2026-02-17 03:47:45] Engine: Fired for Post ID 1356. Post Type: stt_ticket
+[2026-02-17 03:47:45] Engine: Post type mismatch. Actual: stt_ticket. Expected: scholarly_article.
+[2026-02-17 03:47:45] GLOBAL DEBUG: save_post fired for ID 1356
+[2026-02-17 03:47:45] Engine: Transition detected for Post ID 1357. Old: new -> New: publish
+[2026-02-17 03:47:45] Engine: Fired for Post ID 1357. Post Type: stt_ticket
+[2026-02-17 03:47:45] Engine: Post type mismatch. Actual: stt_ticket. Expected: scholarly_article.
+[2026-02-17 03:47:45] GLOBAL DEBUG: save_post fired for ID 1357
+[2026-02-17 03:47:45] GLOBAL DEBUG: save_post fired for ID 1356
+[2026-02-17 03:47:45] Integration: Ticket #1356 saved. Syncing Article #1355.
+[2026-02-17 03:47:45] GLOBAL DEBUG: save_post fired for ID 1356
+[2026-02-17 03:47:45] Integration: Ticket #1356 saved. Syncing Article #1355.
+[2026-02-17 03:47:45] Integration: Ticket #1356 closed. No other open tickets found. Removing tag from Article #1355.
+[2026-02-17 03:47:45] Integration: Removed tag 'Ticket Created' from Post #1355.
+[2026-02-17 03:47:45] GLOBAL DEBUG: save_post fired for ID 1357
+[2026-02-17 03:47:45] Integration: Ticket #1357 saved. Syncing Article #1355.
+[2026-02-17 03:47:45] Integration: Ticket #1357 closed. No other open tickets found. Removing tag from Article #1355.
+[2026-02-17 03:49:35] SAD_Integration initialized.
+[2026-02-17 03:49:37] SAD_Integration initialized.
+[2026-02-17 03:51:36] SAD_Integration initialized.
+[2026-02-17 03:51:38] SAD_Integration initialized.
+[2026-02-17 03:53:39] SAD_Integration initialized.
+[2026-02-17 03:55:40] SAD_Integration initialized.
+[2026-02-17 03:59:06] SAD_Integration initialized.
+[2026-02-17 03:59:06] SAD_Integration initialized.
+[2026-02-17 03:59:08] SAD_Integration initialized.
+[2026-02-17 03:59:14] SAD_Integration initialized.
+[2026-02-17 03:59:14] SAD_Integration initialized.
+[2026-02-17 03:59:15] SAD_Integration initialized.
+[2026-02-17 03:59:18] SAD_Integration initialized.
+[2026-02-17 03:59:22] SAD_Integration initialized.
+[2026-02-17 03:59:22] SAD_Integration initialized.
+[2026-02-17 03:59:23] SAD_Integration initialized.
+[2026-02-17 03:59:23] SAD_Integration initialized.
+[2026-02-17 03:59:25] SAD_Integration initialized.
+[2026-02-17 03:59:25] SAD_Integration initialized.
+[2026-02-17 03:59:26] SAD_Integration initialized.
+[2026-02-17 03:59:26] SAD_Integration initialized.
+[2026-02-17 03:59:28] SAD_Integration initialized.
+[2026-02-17 03:59:28] SAD_Integration initialized.
+[2026-02-17 03:59:30] SAD_Integration initialized.
+[2026-02-17 03:59:31] SAD_Integration initialized.
+[2026-02-17 03:59:33] SAD_Integration initialized.
+[2026-02-17 03:59:33] Engine: Transition detected for Post ID 1322. Old: publish -> New: publish
+[2026-02-17 03:59:33] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-17 03:59:33] Engine: Retrieving rules...
+[2026-02-17 03:59:33] Model: Fetching option 'sad_workflow_rules'
+[2026-02-17 03:59:33] Model: Fetched rules. Type: array
+[2026-02-17 03:59:33] Model: Rule Count: 0
+[2026-02-17 03:59:33] Engine: No rules found in DB. Loading defaults.
+[2026-02-17 03:59:33] Engine: Found 2 rules to evaluate.
+[2026-02-17 03:59:33] Engine: Old status provided: 'publish'
+[2026-02-17 03:59:33] Engine: Checking Status Rule [default_1]...
+[2026-02-17 03:59:33] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 03:59:33] Engine: Checking Status Rule [default_2]...
+[2026-02-17 03:59:33] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 03:59:36] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-17 03:59:36] Integration: Removed tag 'Ticket Created' from Post #1322.
+[2026-02-17 03:59:36] SAD_Integration initialized.
+[2026-02-17 03:59:37] SAD_Integration initialized.
+[2026-02-17 03:59:37] SAD_Integration initialized.
+[2026-02-17 03:59:39] SAD_Integration initialized.
+[2026-02-17 03:59:40] SAD_Integration initialized.
+[2026-02-17 03:59:40] SAD_Integration initialized.
+[2026-02-17 03:59:40] SAD_Integration initialized.
+[2026-02-17 03:59:50] SAD_Integration initialized.
+[2026-02-17 04:01:06] SAD_Integration initialized.
+[2026-02-17 04:01:51] SAD_Integration initialized.
+[2026-02-17 04:03:07] SAD_Integration initialized.
+[2026-02-17 04:03:52] SAD_Integration initialized.
+[2026-02-17 04:04:03] SAD_Integration initialized.
+[2026-02-17 04:05:08] SAD_Integration initialized.
+[2026-02-17 04:06:04] SAD_Integration initialized.
+[2026-02-17 04:07:09] SAD_Integration initialized.
+[2026-02-17 04:08:05] SAD_Integration initialized.
+[2026-02-17 04:09:10] SAD_Integration initialized.
+[2026-02-17 04:10:06] SAD_Integration initialized.
+[2026-02-17 04:12:07] SAD_Integration initialized.
+[2026-02-17 04:14:08] SAD_Integration initialized.
+[2026-02-17 04:58:14] SAD_Integration initialized.
+[2026-02-17 04:58:15] SAD_Integration initialized.
+[2026-02-17 04:58:15] SAD_Integration initialized.
+[2026-02-17 04:58:15] SAD_Integration initialized.
+[2026-02-17 05:00:15] SAD_Integration initialized.
+[2026-02-17 05:00:16] SAD_Integration initialized.
+[2026-02-17 05:00:16] SAD_Integration initialized.
+[2026-02-17 05:02:16] SAD_Integration initialized.
+[2026-02-17 05:02:17] SAD_Integration initialized.
+[2026-02-17 05:02:17] SAD_Integration initialized.
+[2026-02-17 05:04:17] SAD_Integration initialized.
+[2026-02-17 05:04:18] SAD_Integration initialized.
+[2026-02-17 05:06:18] SAD_Integration initialized.
+[2026-02-17 05:06:19] SAD_Integration initialized.
+[2026-02-17 05:06:19] SAD_Integration initialized.
+[2026-02-17 05:08:19] SAD_Integration initialized.
+[2026-02-17 05:08:20] SAD_Integration initialized.
+[2026-02-17 05:24:04] SAD_Integration initialized.
+[2026-02-17 05:24:04] Engine: Transition detected for Post ID 1358. Old: new -> New: publish
+[2026-02-17 05:24:04] Engine: Fired for Post ID 1358. Post Type: scholarly_article
+[2026-02-17 05:24:04] Engine: Retrieving rules...
+[2026-02-17 05:24:04] Model: Fetching option 'sad_workflow_rules'
+[2026-02-17 05:24:04] Model: Fetched rules. Type: array
+[2026-02-17 05:24:04] Model: Rule Count: 0
+[2026-02-17 05:24:04] Engine: No rules found in DB. Loading defaults.
+[2026-02-17 05:24:04] Engine: Found 2 rules to evaluate.
+[2026-02-17 05:24:04] Engine: Old status provided: 'new'
+[2026-02-17 05:24:04] Engine: Checking Status Rule [default_1]...
+[2026-02-17 05:24:04] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 05:24:04] Engine: Checking Status Rule [default_2]...
+[2026-02-17 05:24:04] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 05:25:05] GLOBAL DEBUG: save_post fired for ID 1358
+[2026-02-17 05:25:05] Engine: Transition detected for Post ID 1359. Old: new -> New: publish
+[2026-02-17 05:25:05] Engine: Fired for Post ID 1359. Post Type: stt_ticket
+[2026-02-17 05:25:05] Engine: Post type mismatch. Actual: stt_ticket. Expected: scholarly_article.
+[2026-02-17 05:25:05] GLOBAL DEBUG: save_post fired for ID 1359
+[2026-02-17 05:25:05] Engine: Transition detected for Post ID 1360. Old: new -> New: publish
+[2026-02-17 05:25:05] Engine: Fired for Post ID 1360. Post Type: stt_ticket
+[2026-02-17 05:25:05] Engine: Post type mismatch. Actual: stt_ticket. Expected: scholarly_article.
+[2026-02-17 05:25:05] GLOBAL DEBUG: save_post fired for ID 1360
+[2026-02-17 05:25:06] GLOBAL DEBUG: save_post fired for ID 1359
+[2026-02-17 05:25:06] Integration: Ticket #1359 saved. Syncing Article #1358.
+[2026-02-17 05:25:06] Integration: Ticket #1359 status changed from open to resolved. Triggering sync.
+[2026-02-17 05:25:06] Integration: Ticket #1359 saved. Syncing Article #1358.
+[2026-02-17 05:25:06] Integration: Ticket #1359 closed. No other open tickets found. Removing tag from Article #1358.
+[2026-02-17 05:25:06] Integration: Removed tag 'Ticket Created' from Post #1358.
+[2026-02-17 05:25:06] Integration: Ticket #1360 status changed from open to closed. Triggering sync.
+[2026-02-17 05:25:06] Integration: Ticket #1360 saved. Syncing Article #1358.
+[2026-02-17 05:25:06] Integration: Ticket #1360 closed. No other open tickets found. Removing tag from Article #1358.
+[2026-02-17 05:25:06] SAD_Integration initialized.
+[2026-02-17 05:25:36] SAD_Integration initialized.
+[2026-02-17 05:25:39] SAD_Integration initialized.
+[2026-02-17 05:25:43] SAD_Integration initialized.
+[2026-02-17 05:25:47] SAD_Integration initialized.
+[2026-02-17 05:25:48] SAD_Integration initialized.
+[2026-02-17 05:25:49] SAD_Integration initialized.
+[2026-02-17 05:25:49] SAD_Integration initialized.
+[2026-02-17 05:25:50] SAD_Integration initialized.
+[2026-02-17 05:25:54] SAD_Integration initialized.
+[2026-02-17 05:25:55] SAD_Integration initialized.
+[2026-02-17 05:25:58] SAD_Integration initialized.
+[2026-02-17 05:26:00] SAD_Integration initialized.
+[2026-02-17 05:26:05] SAD_Integration initialized.
+[2026-02-17 05:27:03] SAD_Integration initialized.
+[2026-02-17 05:27:13] SAD_Integration initialized.
+[2026-02-17 05:27:40] SAD_Integration initialized.
+[2026-02-17 05:27:50] SAD_Integration initialized.
+[2026-02-17 05:27:59] SAD_Integration initialized.
+[2026-02-17 05:28:01] SAD_Integration initialized.
+[2026-02-17 05:28:09] SAD_Integration initialized.
+[2026-02-17 05:28:16] SAD_Integration initialized.
+[2026-02-17 05:28:19] SAD_Integration initialized.
+[2026-02-17 05:28:30] SAD_Integration initialized.
+[2026-02-17 05:28:41] SAD_Integration initialized.
+[2026-02-17 05:28:53] SAD_Integration initialized.
+[2026-02-17 05:29:04] SAD_Integration initialized.
+[2026-02-17 05:29:19] SAD_Integration initialized.
+[2026-02-17 05:29:30] SAD_Integration initialized.
+[2026-02-17 05:30:00] SAD_Integration initialized.
+[2026-02-17 05:30:02] SAD_Integration initialized.
+[2026-02-17 05:30:35] SAD_Integration initialized.
+[2026-02-17 05:30:42] SAD_Integration initialized.
+[2026-02-17 05:30:43] SAD_Integration initialized.
+[2026-02-17 05:30:44] SAD_Integration initialized.
+[2026-02-17 05:30:51] SAD_Integration initialized.
+[2026-02-17 05:30:51] Engine: Transition detected for Post ID 1322. Old: publish -> New: publish
+[2026-02-17 05:30:51] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-17 05:30:51] Engine: Retrieving rules...
+[2026-02-17 05:30:51] Model: Fetching option 'sad_workflow_rules'
+[2026-02-17 05:30:51] Model: Fetched rules. Type: array
+[2026-02-17 05:30:51] Model: Rule Count: 0
+[2026-02-17 05:30:51] Engine: No rules found in DB. Loading defaults.
+[2026-02-17 05:30:51] Engine: Found 2 rules to evaluate.
+[2026-02-17 05:30:51] Engine: Old status provided: 'publish'
+[2026-02-17 05:30:51] Engine: Checking Status Rule [default_1]...
+[2026-02-17 05:30:51] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 05:30:51] Engine: Checking Status Rule [default_2]...
+[2026-02-17 05:30:51] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 05:30:54] SAD_Integration initialized.
+[2026-02-17 05:30:54] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-17 05:30:55] SAD_Integration initialized.
+[2026-02-17 05:30:57] SAD_Integration initialized.
+[2026-02-17 05:30:57] SAD_Integration initialized.
+[2026-02-17 05:31:07] SAD_Integration initialized.
+[2026-02-17 05:32:01] SAD_Integration initialized.
+[2026-02-17 05:32:03] SAD_Integration initialized.
+[2026-02-17 05:33:08] SAD_Integration initialized.
+[2026-02-17 05:34:02] SAD_Integration initialized.
+[2026-02-17 05:34:04] SAD_Integration initialized.
+[2026-02-17 05:35:22] SAD_Integration initialized.
+[2026-02-17 05:36:05] SAD_Integration initialized.
+[2026-02-17 05:37:10] SAD_Integration initialized.
+[2026-02-17 05:38:06] SAD_Integration initialized.
+[2026-02-17 05:39:11] SAD_Integration initialized.
+[2026-02-17 05:40:07] SAD_Integration initialized.
+[2026-02-17 05:40:57] SAD_Integration initialized.
+[2026-02-17 05:41:07] SAD_Integration initialized.
+[2026-02-17 05:41:21] SAD_Integration initialized.
+[2026-02-17 05:41:27] SAD_Integration initialized.
+[2026-02-17 05:41:31] SAD_Integration initialized.
+[2026-02-17 05:41:41] SAD_Integration initialized.
+[2026-02-17 05:41:43] SAD_Integration initialized.
+[2026-02-17 05:41:46] SAD_Integration initialized.
+[2026-02-17 05:41:51] SAD_Integration initialized.
+[2026-02-17 05:41:57] SAD_Integration initialized.
+[2026-02-17 05:41:57] Engine: Transition detected for Post ID 1322. Old: publish -> New: publish
+[2026-02-17 05:41:57] Engine: Fired for Post ID 1322. Post Type: scholarly_article
+[2026-02-17 05:41:57] Engine: Retrieving rules...
+[2026-02-17 05:41:57] Model: Fetching option 'sad_workflow_rules'
+[2026-02-17 05:41:57] Model: Fetched rules. Type: array
+[2026-02-17 05:41:57] Model: Rule Count: 0
+[2026-02-17 05:41:57] Engine: No rules found in DB. Loading defaults.
+[2026-02-17 05:41:57] Engine: Found 2 rules to evaluate.
+[2026-02-17 05:41:57] Engine: Old status provided: 'publish'
+[2026-02-17 05:41:57] Engine: Checking Status Rule [default_1]...
+[2026-02-17 05:41:57] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 05:41:57] Engine: Checking Status Rule [default_2]...
+[2026-02-17 05:41:57] Engine: Checking Condition - Field: semantic_report_url | Operator: not_empty | Expected:  | Actual: []
+[2026-02-17 05:42:00] GLOBAL DEBUG: save_post fired for ID 1322
+[2026-02-17 05:42:00] SAD_Integration initialized.
+[2026-02-17 05:42:01] SAD_Integration initialized.
+[2026-02-17 05:42:02] SAD_Integration initialized.
+[2026-02-17 05:42:02] SAD_Integration initialized.
+[2026-02-17 05:42:08] SAD_Integration initialized.
+[2026-02-17 05:42:13] SAD_Integration initialized.
+[2026-02-17 05:44:09] SAD_Integration initialized.
+[2026-02-17 05:44:14] SAD_Integration initialized.
+[2026-02-17 05:46:10] SAD_Integration initialized.
+[2026-02-17 05:46:15] SAD_Integration initialized.
+[2026-02-17 05:46:44] SAD_Integration initialized.
+[2026-02-17 05:46:54] SAD_Integration initialized.
+[2026-02-17 05:48:11] SAD_Integration initialized.
+[2026-02-17 05:48:12] SAD_Integration initialized.
+[2026-02-17 05:48:55] SAD_Integration initialized.

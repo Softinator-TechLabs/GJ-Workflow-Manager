@@ -14,6 +14,22 @@ class SAD_Integration {
 
         // Consolidated Save Hook (Handles Articles, Tickets, Invoices)
         add_action( 'save_post', array( $this, 'handle_save_post' ), 20, 3 );
+
+        // Ticket Status Change Hook (for AJAX updates in Ticket Tracker)
+        add_action( 'stt_ticket_status_changed', array( $this, 'handle_ticket_status_change' ), 10, 4 );
+    }
+
+    /**
+     * Handle Ticket Status Change (triggered by STT Plugin AJAX)
+     */
+    public function handle_ticket_status_change( $ticket_id, $old_status, $new_status, $user_id ) {
+        if ( class_exists( 'SAD_Logger' ) ) {
+            SAD_Logger::log( "Integration: Ticket #$ticket_id status changed from $old_status to $new_status. Triggering sync." );
+        }
+        $ticket = get_post( $ticket_id );
+        if ( $ticket ) {
+            $this->handle_ticket_save( $ticket_id, $ticket );
+        }
     }
 
     /**
@@ -56,6 +72,44 @@ class SAD_Integration {
 
         if ( $is_active ) {
             $this->add_tag_with_type( $article_id, 'Ticket Created', 'ticket', "Linked Ticket #{$ticket_id} is Open", $ticket_id );
+        } else {
+            // Ticket is closed/resolved. Check if any OTHER open tickets exist for this article.
+            $args = array(
+                'post_type'  => 'stt_ticket',
+                'meta_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'key'   => '_stt_related_article',
+                        'value' => $article_id
+                    ),
+                    array(
+                        'key'     => '_stt_status',
+                        'value'   => array( 'open', 'in-progress' ),
+                        'compare' => 'IN'
+                    ),
+                    array(
+                        'key'     => 'ID', // Actually we need to exclude current ticket? 
+                        // No, meta_query can't check post ID easily unless we use post__not_in in top level args
+                    )
+                ),
+                'post__not_in' => array( $ticket_id ),
+                'fields'       => 'ids',
+                'posts_per_page' => 1
+            );
+
+            $other_open_tickets = get_posts( $args );
+
+            if ( empty( $other_open_tickets ) ) {
+                // No other open tickets. Safe to remove the tag.
+                if ( class_exists( 'SAD_Logger' ) ) {
+                    SAD_Logger::log( "Integration: Ticket #$ticket_id closed. No other open tickets found. Removing tag from Article #$article_id." );
+                }
+                $this->remove_tag_with_type( $article_id, 'Ticket Created', 'ticket' );
+            } else {
+                if ( class_exists( 'SAD_Logger' ) ) {
+                     SAD_Logger::log( "Integration: Ticket #$ticket_id closed, but other open tickets exist. Keeping tag." );
+                }
+            }
         }
     }
 
@@ -90,6 +144,11 @@ class SAD_Integration {
                 SAD_Logger::log( "Integration: Article #$article_id saved. Found active Ticket #$ticket_id. Applying tag." );
             }
             $this->add_tag_with_type( $article_id, 'Ticket Created', 'ticket', "Active Ticket #{$ticket_id} Found", $ticket_id );
+        } else {
+            // No open tickets found. Ensure tag is removed.
+            // This acts as a cleanup sync.
+            // Check if tag exists first to avoid unnecessary writes? remove_tag_with_type handles logic.
+            $this->remove_tag_with_type( $article_id, 'Ticket Created', 'ticket' );
         }
     }
 
@@ -155,6 +214,32 @@ class SAD_Integration {
         );
 
         update_post_meta( $post_id, '_sad_tag_reasons', $current_info );
+    }
+
+    /**
+     * Helper to remove tag and cleanup meta
+     */
+    private function remove_tag_with_type( $post_id, $tag_name, $type ) {
+        // Remove Term
+        wp_remove_object_terms( $post_id, $tag_name, 'article_progress' );
+        
+        // Remove from Meta
+        $term = get_term_by( 'name', $tag_name, 'article_progress' );
+        if ( ! $term ) {
+            return;
+        }
+
+        $current_info = get_post_meta( $post_id, '_sad_tag_reasons', true );
+        if ( is_array( $current_info ) && isset( $current_info[ $term->term_id ] ) ) {
+            // Only remove if it matches the type (optional check, but good for safety)
+            // Actually, we force remove for now based on logic above.
+            unset( $current_info[ $term->term_id ] );
+            update_post_meta( $post_id, '_sad_tag_reasons', $current_info );
+            
+            if ( class_exists( 'SAD_Logger' ) ) {
+                SAD_Logger::log( "Integration: Removed tag '$tag_name' from Post #$post_id." );
+            }
+        }
     }
 
 }
