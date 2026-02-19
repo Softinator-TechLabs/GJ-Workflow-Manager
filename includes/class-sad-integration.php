@@ -10,8 +10,56 @@ class SAD_Integration {
         }
 
         // Outliny Hooks
-        // handled in manager
+        // handled in manager (hook registration)
+        // Implementation:
+    }
 
+    /**
+     * Handle Outliny Session Completion
+     * 
+     * @param array $data {
+     *     @type string $session_id
+     *     @type string $final_status
+     *     @type array  $final_data
+     *     @type float  $execution_time
+     * }
+     */
+    public function handle_outliny_completion( $data ) {
+         if ( class_exists( 'SAD_Logger' ) ) {
+            SAD_Logger::log( "Integration: Outliny Action Completed. Data: " . print_r($data, true) );
+        }
+
+        if ( empty( $data['final_status'] ) || empty( $data['final_data'] ) ) {
+            return;
+        }
+
+        // We need post_id. It should be in final_data (passed from processor)
+        // Or we might need to look it up via session if not present, but let's check final_data first.
+        $post_id = isset( $data['final_data']['post_id'] ) ? intval( $data['final_data']['post_id'] ) : 0;
+
+        if ( ! $post_id ) {
+             // Fallback: Try to get from log if possible, or just fail safely
+             // Outliny_Logger::get_log_detail... but expensive.
+             if ( class_exists( 'SAD_Logger' ) ) {
+                SAD_Logger::log( "Integration: No Post ID found in final_data. Aborting rule check." );
+            }
+             return;
+        }
+
+        $post = get_post( $post_id );
+        if ( ! $post ) {
+            return;
+        }
+
+        // Trigger Rule Engine
+        if ( class_exists( 'SAD_Rule_Engine' ) ) {
+             if ( class_exists( 'SAD_Logger' ) ) {
+                SAD_Logger::log( "Integration: Triggering Rule Engine for Post #$post_id." );
+            }
+            $rule_engine = new SAD_Rule_Engine();
+            // Pass current status as old status because we aren't changing status yet, just evaluating
+            $rule_engine->run_rules( $post_id, $post, $post->post_status );
+        }
         // Consolidated Save Hook (Handles Articles, Tickets, Invoices)
         add_action( 'save_post', array( $this, 'handle_save_post' ), 20, 3 );
 

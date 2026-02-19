@@ -66,6 +66,10 @@
   animation: sad-tooltip-fade 0.2s forwards;
 }
 
+.postbox-header {
+  padding: 0px 10px;
+}
+
 @keyframes sad-tooltip-fade {
   to {
     opacity: 1;

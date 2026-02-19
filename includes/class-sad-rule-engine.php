@@ -217,7 +217,18 @@ class SAD_Rule_Engine {
      * @param string $old_status Old Status (optional).
      * @return bool True if conditions met.
      */
-    private function evaluate_rule( $rule, $post_id, $post, $old_status = '' ) {
+    private function evaluate_rule( $rule, $post_id, $post, $old_status = '', $visited_rules = array() ) {
+
+        // Cycle Detection
+        if ( isset( $rule['id'] ) ) {
+            if ( in_array( $rule['id'], $visited_rules ) ) {
+                if ( class_exists( 'SAD_Logger' ) ) {
+                    SAD_Logger::log( "Engine: Cycle detected for Rule ID {$rule['id']}. Aborting evaluation." );
+                }
+                return false;
+            }
+            $visited_rules[] = $rule['id'];
+        }
 
         // 1. Check Trigger Status
         if ( ! empty( $rule['trigger_status'] ) ) {
@@ -244,7 +255,7 @@ class SAD_Rule_Engine {
         // 2. Check Conditions
         if ( ! empty( $rule['conditions'] ) ) {
             foreach ( $rule['conditions'] as $condition ) {
-                if ( ! $this->check_condition( $condition, $post_id, $post ) ) {
+                if ( ! $this->check_condition( $condition, $post_id, $post, $visited_rules ) ) {
                     return false;
                 }
             }
@@ -261,14 +272,70 @@ class SAD_Rule_Engine {
      * @param WP_Post $post Post Object.
      * @return bool
      */
-    private function check_condition( $condition, $post_id, $post ) {
+    private function check_condition( $condition, $post_id, $post, $visited_rules = array() ) {
         $field = $condition['field'];
         $operator = $condition['operator'];
         $expected_value = isset( $condition['value'] ) ? $condition['value'] : '';
 
         // Get value
         $actual_value = '';
-        if ( in_array( $field, array( 'post_title', 'post_content', 'post_status' ) ) ) {
+
+        // --- Custom Integration: Rule Match (Inheritance) ---
+        if ( strpos( $field, 'rule_match:' ) === 0 ) {
+             $parts = explode( ':', $field );
+             if ( isset( $parts[1] ) ) {
+                 $target_rule_id = $parts[1];
+                 $target_rule = $this->rule_model->get_rule( $target_rule_id );
+                 
+                 if ( $target_rule ) {
+                     // Recursive Check
+                     $is_match = $this->evaluate_rule( $target_rule, $post_id, $post, '', $visited_rules );
+                     $actual_value = $is_match ? 'true' : 'false';
+                 } else {
+                     if ( class_exists( 'SAD_Logger' ) ) {
+                        SAD_Logger::log( "Engine: Target Rule $target_rule_id not found." );
+                     }
+                 }
+             }
+        }
+        // --- Custom Integration: Outliny Action Status ---
+        elseif ( strpos( $field, 'outliny_action_status:' ) === 0 ) {
+            $parts = explode( ':', $field );
+            if ( isset( $parts[1] ) ) {
+                $button_id = intval( $parts[1] );
+                
+                global $wpdb;
+                $table_name = $wpdb->prefix . 'outliny_action_logs';
+
+                // Check if table exists (cache this check?)
+                // Use a more robust check or just try/catch if possible, but WPDB doesn't throw exceptions easily.
+                // SHOW TABLES LIKE 'tableName' usually returns the table name if it exists.
+                // However, let's just run the query and check for null, as get_var returns null if not found.
+                // But if table doesn't exist, it prints a database error.
+                // Let's use the standard WP method to check table existence if we want to be safe.
+                // Or compare lower case.
+                
+                // $table_exists = $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name ) ) === $table_name;
+
+                // if ( $table_exists ) {
+                    $query = $wpdb->prepare(
+                        "SELECT status FROM $table_name WHERE post_id = %d AND button_id = %d ORDER BY created_at DESC LIMIT 1",
+                        $post_id,
+                        $button_id
+                    );
+                    $status = $wpdb->get_var( $query );
+                    
+                    if ( class_exists( 'SAD_Logger' ) ) {
+                        // Optional: Log only on error or extensive debug mode?
+                        // SAD_Logger::log( "Engine: Outliny Check - Post: $post_id, Button: $button_id, Status: " . ($status ? $status : 'null') );
+                    }
+
+                    $actual_value = $status ? $status : ''; // 'success', 'error', etc.
+                // }
+            }
+        }
+        // --- End Custom Integration ---
+        elseif ( in_array( $field, array( 'post_title', 'post_content', 'post_status' ) ) ) {
              $actual_value = $post->$field;
         } else {
             // Assume Pods or Meta

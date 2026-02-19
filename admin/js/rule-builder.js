@@ -23,6 +23,24 @@ jQuery(document).ready(function ($) {
     $(this).closest(".sad-condition-row").remove();
   });
 
+  // Copy Rule ID
+  $(document).on("click", ".sad-copy-rule-id", function () {
+    var $input = $(this).siblings(".sad-rule-id-input");
+    var id = $input.val();
+    if (id && id !== "(Generated on Save)") {
+      $input.select();
+      document.execCommand("copy");
+      var $btn = $(this);
+      var originalText = $btn.html();
+      $btn.html(
+        '<span class="dashicons dashicons-yes" style="margin-top: 4px; color: green;"></span> Copied!',
+      );
+      setTimeout(function () {
+        $btn.html(originalText);
+      }, 1500);
+    }
+  });
+
   // Save Rules
   $("#sad-save-rules-btn").on("click", function () {
     var rules = [];

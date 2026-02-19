@@ -51,4 +51,19 @@ class SAD_Rule_Model {
         $rules[] = $rule;
         return $this->save_rules( $rules );
     }
+    /**
+     * Get a single rule by ID.
+     *
+     * @param string $id Rule ID.
+     * @return array|null Rule data or null if not found.
+     */
+    public function get_rule( $id ) {
+        $rules = $this->get_rules();
+        foreach ( $rules as $rule ) {
+            if ( isset( $rule['id'] ) && $rule['id'] === $id ) {
+                return $rule;
+            }
+        }
+        return null;
+    }
 }

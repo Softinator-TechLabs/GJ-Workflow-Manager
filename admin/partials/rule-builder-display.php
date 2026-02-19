@@ -5,13 +5,18 @@
         <!-- Existing Rules will be loaded here via JS (or pre-rendered PHP) -->
         <?php foreach ( $rules as $index => $rule ): ?>
             <div class="sad-rule-item postbox" data-id="<?php echo esc_attr( $rule['id'] ); ?>">
-                <div class="postbox-header">
+                <div class="postbox-header" style="padding: 0px 10px;">
                     <h2 class="hndle">Rule #<?php echo $index + 1; ?></h2>
                     <div class="handle-actions">
                          <button type="button" class="button-link sad-remove-rule text-danger">Remove</button>
                     </div>
                 </div>
                 <div class="inside">
+                    <p style="background: #e5e5e5; padding: 10px; border-radius: 4px; display: flex; align-items: center; gap: 10px;">
+                        <label><strong>Rule ID:</strong></label>
+                        <input type="text" value="<?php echo esc_attr( $rule['id'] ); ?>" class="regular-text sad-rule-id-input" readonly style="background: #fff; cursor: default;">
+                        <button type="button" class="button sad-copy-rule-id" title="Copy ID"><span class="dashicons dashicons-admin-page" style="margin-top: 4px;"></span> Copy</button>
+                    </p>
                     <p>
                         <label><strong>Trigger Status(es):</strong></label>
                         <input type="text" name="trigger_status" value="<?php echo esc_attr( implode(', ', (array)$rule['trigger_status']) ); ?>" class="regular-text" placeholder="draft, pending (comma separated)">
@@ -71,13 +76,18 @@
     <!-- Template for New Rule -->
     <script type="text/template" id="sad-rule-template">
         <div class="sad-rule-item postbox" data-id="">
-                <div class="postbox-header">
+                <div class="postbox-header" style="padding: 0px 10px;">
                     <h2 class="hndle">New Rule</h2>
                      <div class="handle-actions">
                          <button type="button" class="button-link sad-remove-rule text-danger">Remove</button>
                     </div>
                 </div>
                 <div class="inside">
+                    <p style="background: #e5e5e5; padding: 10px; border-radius: 4px; display: flex; align-items: center; gap: 10px;">
+                        <label><strong>Rule ID:</strong></label>
+                        <input type="text" value="(Generated on Save)" class="regular-text sad-rule-id-input" readonly style="background: #fff; cursor: default; color: #999; font-style: italic;">
+                        <button type="button" class="button sad-copy-rule-id" title="Copy ID" disabled><span class="dashicons dashicons-admin-page" style="margin-top: 4px;"></span> Copy</button>
+                    </p>
                     <p>
                         <label><strong>Trigger Status(es):</strong></label>
                         <input type="text" name="trigger_status" value="" class="regular-text" placeholder="draft, pending (comma separated)">
