@@ -20,6 +20,7 @@ The **SAD Workflow Manager** handles automated tagging and workflow transitions 
 | `includes/class-sad-admin.php`             | `SAD_Workflow_Admin`    | Admin UI logic for the Rule Builder page and displaying tags in the post list.            |
 | `includes/class-sad-activity-log.php`      | `SAD_Activity_Log`      | Displays the "Outliny Activity Log" meta box on article edit screens.                     |
 | `includes/class-sad-workflow-taxonomy.php` | `SAD_Workflow_Taxonomy` | Registers the private `article_progress` taxonomy.                                        |
+| `includes/class-sad-webhook-dispatcher.php` | `SAD_Webhook_Dispatcher` | Handles the "Webhook Dispatcher" meta box and POST requests to external webhooks.         |
 
 ## 3. Core Logic Breakdown
 
@@ -110,3 +111,34 @@ This class listens for `save_post` on `stt_ticket` and `sad_invoice` types.
 
 - **Logging**: Use `SAD_Logger::log()` for debugging.
 - **Taxonomy**: `article_progress` is non-hierarchical and private (not queryable on frontend).
+
+## 6. Webhook Dispatcher
+
+The **Webhook Dispatcher** provides a manual trigger for administrators to send article data to external automation webhooks.
+
+### A. Meta Box Logic
+- **Location**: Appears on the sidebar of the `scholarly_article` edit page.
+- **Manuscript Retrieval**:
+    1. First checks `article_file_manuscript_url` meta.
+    2. Fallback to `SAD_Pods_File_Fields::get_files_for_frontend()` to resolve S3/Wasabi pre-signed URLs for files marked as `manuscript`.
+- **UI**: Shows the Post ID and the current manuscript filename.
+
+### B. AJAX Workflow
+1. **Trigger**: User clicks "Send to Webhook".
+2. **fresh Fetch**: Re-fetches the manuscript URL (ensuring S3 pre-signed links are fresh).
+3. **Dispatch**: Sends a `POST` request to `https://n80n.softinator.org/webhook-test/e4653eb5-3d4a-48a8-9db8-5681a6988dd5` with JSON payload:
+   ```json
+   {
+     "post_id": 123,
+     "manuscript_url": "https://..."
+   }
+   ```
+4. **Response**: Displays success/error message directly in the meta box.
+
+### C. Configuration
+The Webhook URL is currently hardcoded in the dispatcher class. To change it:
+- **File**: `includes/class-sad-webhook-dispatcher.php`
+- **Variable**: `$webhook_url` property at the top of the class.
+
+### D. Purpose
+This component is used to trigger external automation flows (like n8n or Zapier) that require the Article ID and the latest Manuscript file link. By clicking the button, the system generates a fresh pre-signed S3 URL for Wasabi files, ensuring the external system has permission to download the file immediately.

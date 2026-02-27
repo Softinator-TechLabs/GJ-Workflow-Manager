@@ -8,7 +8,6 @@
   font-weight: 600;
   line-height: 1.5;
   color: #fff;
-  background-color: #2271b1; /* WordPress Blue (Default) */
   border-radius: 4px;
   cursor: help;
   position: relative;
@@ -25,7 +24,7 @@
 .sad-tag-type-invoice {
   background-color: #e67e22; /* Orange */
 }
-.sad-tag-type-warning {
+.sad-tag-state.sad-tag-type-warning {
   background-color: #d63638; /* WordPress Red */
 }
 

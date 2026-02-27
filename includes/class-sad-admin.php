@@ -17,6 +17,7 @@ class SAD_Workflow_Admin {
      */
     public function enqueue_styles() {
         wp_enqueue_style( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'admin/css/sad-workflow-admin.css', array(), $this->version, 'all' );
+        wp_enqueue_style( $this->plugin_name . '-webhook', plugin_dir_url( dirname( __FILE__ ) ) . 'admin/css/webhook-dispatcher.css', array(), $this->version, 'all' );
     }
 
     /**
@@ -24,6 +25,14 @@ class SAD_Workflow_Admin {
      */
     public function enqueue_scripts() {
         wp_enqueue_script( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'admin/js/rule-builder.js', array( 'jquery' ), $this->version, false );
+        
+        // Enqueue Webhook Dispatcher JS
+        wp_enqueue_script( $this->plugin_name . '-webhook', plugin_dir_url( dirname( __FILE__ ) ) . 'admin/js/webhook-dispatcher.js', array( 'jquery' ), $this->version, false );
+
+        wp_localize_script( $this->plugin_name . '-webhook', 'sad_webhook_vars', array(
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'nonce'    => wp_create_nonce( 'sad_webhook_nonce' )
+        ));
 
         wp_localize_script( $this->plugin_name, 'sad_workflow_vars', array(
             'ajax_url' => admin_url( 'admin-ajax.php' ),

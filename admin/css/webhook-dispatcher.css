@@ -1,0 +1,13 @@
+.sad-webhook-box p {
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.sad-webhook-box .button {
+    margin-top: 5px;
+}
+
+#sad-webhook-response {
+    display: block;
+    min-height: 20px;
+}

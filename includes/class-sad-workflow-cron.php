@@ -12,6 +12,17 @@ class SAD_Workflow_Cron {
      */
     public function init() {
         add_action( 'sad_workflow_daily_check', array( $this, 'check_all_articles' ) );
+        add_action( 'save_post_scholarly_article', array( $this, 'trigger_article_check' ) );
+    }
+
+    /**
+     * Trigger a check for a specific article.
+     * Useful for running immediately after a save operation.
+     */
+    public function trigger_article_check( $post_id ) {
+        if ( get_post_type( $post_id ) === 'scholarly_article' ) {
+            $this->process_article( $post_id );
+        }
     }
 
     /**
@@ -106,13 +117,13 @@ class SAD_Workflow_Cron {
             'grammarly' => array(
                 'label' => 'Grammarly Report',
                 'days'  => 2,
-                'field' => 'pre-peer-review-report-url',
+                'field' => 'pre_peer_review_report_url',
                 'type'  => 'not_empty'
             ),
             'review_files' => array(
                 'label' => 'Comment File + RAAR',
                 'days'  => 5,
-                'fields' => array( 'comments-file', 'raar-report-pdf' ),
+                'fields' => array( 'comments_file', 'raar_report_pdf' ),
                 'type'  => 'all_not_empty'
             ),
             'acceptance' => array(
@@ -124,7 +135,7 @@ class SAD_Workflow_Cron {
             'early_view' => array(
                 'label' => 'Early View Launch',
                 'days'  => 20,
-                'field' => 'early-view-individual-file',
+                'field' => 'early_view_individual_file',
                 'type'  => 'not_empty'
             ),
             'ejournal' => array(

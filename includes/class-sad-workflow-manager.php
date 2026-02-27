@@ -76,6 +76,7 @@ class SAD_Workflow_Manager {
 		$this->define_taxonomy_hooks();
         $this->define_integration_hooks();
         $this->define_workflow_hooks();
+        $this->define_webhook_hooks();
 
 	}
 
@@ -137,6 +138,11 @@ class SAD_Workflow_Manager {
 		 * The class responsible for workflow cron tasks.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-sad-workflow-cron.php';
+
+        /**
+		 * The class responsible for webhook dispatcher.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-sad-webhook-dispatcher.php';
 
         /**
 		 * The class responsible for workflow dashboard widget.
@@ -220,6 +226,20 @@ class SAD_Workflow_Manager {
 
         $workflow_dashboard = new SAD_Workflow_Dashboard();
         $this->loader->add_action( 'init', $workflow_dashboard, 'init' );
+
+	}
+
+    /**
+	 * Register all of the hooks related to webhook dispatching.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_webhook_hooks() {
+
+		$webhook_dispatcher = new SAD_Webhook_Dispatcher();
+		$this->loader->add_action( 'add_meta_boxes', $webhook_dispatcher, 'add_meta_box' );
+        $this->loader->add_action( 'wp_ajax_sad_send_webhook', $webhook_dispatcher, 'ajax_send_webhook' );
 
 	}
 
