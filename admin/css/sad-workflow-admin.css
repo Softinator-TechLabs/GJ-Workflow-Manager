@@ -1,0 +1,91 @@
+/* SAD Workflow Admin CSS */
+
+.sad-tag-state {
+  display: inline-block;
+  padding: 2px 8px;
+  margin-left: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #fff;
+  background-color: #2271b1; /* WordPress Blue (Default) */
+  border-radius: 4px;
+  cursor: help;
+  position: relative;
+  vertical-align: middle;
+}
+
+/* Tag Type Colors */
+.sad-tag-type-rule {
+  background-color: #2271b1; /* Blue */
+}
+.sad-tag-type-ticket {
+  background-color: #8e44ad; /* Purple */
+}
+.sad-tag-type-invoice {
+  background-color: #e67e22; /* Orange */
+}
+.sad-tag-type-warning {
+  background-color: #d63638; /* WordPress Red */
+}
+
+/* Tooltip container */
+.sad-tag-state[title] {
+  position: relative;
+}
+
+/* We can use standard browser title, or a custom CSS tooltip if "popup" means something fancy. */
+/* Let's stick to title attribute for native tooltip first as it's robust. */
+/* But user said "popup", let's make it a nice CSS tooltip */
+
+.sad-tag-state:hover::after {
+  content: attr(data-reason);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 9999;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: sad-tooltip-fade 0.2s forwards;
+  pointer-events: none;
+}
+
+.sad-tag-state:hover::before {
+  content: "";
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #333;
+  opacity: 0;
+  animation: sad-tooltip-fade 0.2s forwards;
+}
+
+.postbox-header {
+  padding: 0px 10px;
+}
+
+@keyframes sad-tooltip-fade {
+  to {
+    opacity: 1;
+    bottom: 135%;
+  }
+}
+/* Adjust arrow animation */
+.sad-tag-state:hover::before {
+  animation: sad-tooltip-fade-arrow 0.2s forwards;
+}
+@keyframes sad-tooltip-fade-arrow {
+  to {
+    opacity: 1;
+    bottom: 125%;
+  }
+}
