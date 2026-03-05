@@ -12,18 +12,9 @@ class SAD_Workflow_Cron {
      */
     public function init() {
         add_action( 'sad_workflow_daily_check', array( $this, 'check_all_articles' ) );
-        add_action( 'save_post_scholarly_article', array( $this, 'trigger_article_check' ) );
     }
 
-    /**
-     * Trigger a check for a specific article.
-     * Useful for running immediately after a save operation.
-     */
-    public function trigger_article_check( $post_id ) {
-        if ( get_post_type( $post_id ) === 'scholarly_article' ) {
-            $this->process_article( $post_id );
-        }
-    }
+
 
     /**
      * Main entry point for the daily check.
@@ -34,6 +25,11 @@ class SAD_Workflow_Cron {
             'post_status'    => array( 'publish', 'reviewing', 'unassigned', 'just-accepted', 'formating', 'earlyview-launched', 'ejournal-launched' ),
             'posts_per_page' => -1,
             'fields'         => 'ids',
+            'date_query'     => array(
+                array(
+                    'year' => 2026,
+                ),
+            ),
         );
 
         $articles = get_posts( $args );
@@ -42,8 +38,24 @@ class SAD_Workflow_Cron {
             return;
         }
 
+        $total = count( $articles );
+        $i = 0;
+        
+        if ( php_sapi_name() === 'cli' ) {
+            echo "Found $total articles to check.\n";
+        }
+
         foreach ( $articles as $article_id ) {
             $this->process_article( $article_id );
+            $i++;
+            
+            if ( $i % 100 === 0 && php_sapi_name() === 'cli' ) {
+                echo "Processed $i/$total articles...\n";
+            }
+        }
+
+        if ( php_sapi_name() === 'cli' ) {
+            echo "Finished processing $total articles.\n";
         }
     }
 

@@ -6,7 +6,7 @@ class SAD_Integration {
 
     public function __construct() {
         if ( class_exists( 'SAD_Logger' ) ) {
-            SAD_Logger::log( 'SAD_Integration initialized.' );
+            // SAD_Logger::log( 'SAD_Integration initialized.' );
         }
 
         // Outliny Hooks

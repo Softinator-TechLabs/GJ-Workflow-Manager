@@ -18,6 +18,7 @@ class SAD_Workflow_Admin {
     public function enqueue_styles() {
         wp_enqueue_style( $this->plugin_name, plugin_dir_url( dirname( __FILE__ ) ) . 'admin/css/sad-workflow-admin.css', array(), $this->version, 'all' );
         wp_enqueue_style( $this->plugin_name . '-webhook', plugin_dir_url( dirname( __FILE__ ) ) . 'admin/css/webhook-dispatcher.css', array(), $this->version, 'all' );
+        wp_enqueue_style( $this->plugin_name . '-withdrawal', plugin_dir_url( dirname( __FILE__ ) ) . 'admin/css/sad-withdrawal.css', array(), $this->version, 'all' );
     }
 
     /**
@@ -28,6 +29,13 @@ class SAD_Workflow_Admin {
         
         // Enqueue Webhook Dispatcher JS
         wp_enqueue_script( $this->plugin_name . '-webhook', plugin_dir_url( dirname( __FILE__ ) ) . 'admin/js/webhook-dispatcher.js', array( 'jquery' ), $this->version, false );
+
+        // Enqueue Withdrawal JS
+        wp_enqueue_script( $this->plugin_name . '-withdrawal', plugin_dir_url( dirname( __FILE__ ) ) . 'admin/js/sad-withdrawal.js', array( 'jquery' ), $this->version, false );
+
+        wp_localize_script( $this->plugin_name . '-withdrawal', 'sad_withdrawal_params', array(
+            'nonce' => wp_create_nonce( 'sad_withdraw_nonce' )
+        ));
 
         wp_localize_script( $this->plugin_name . '-webhook', 'sad_webhook_vars', array(
             'ajax_url' => admin_url( 'admin-ajax.php' ),

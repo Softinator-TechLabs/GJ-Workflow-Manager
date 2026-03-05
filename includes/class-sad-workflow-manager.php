@@ -78,6 +78,8 @@ class SAD_Workflow_Manager {
         $this->define_workflow_hooks();
         $this->define_webhook_hooks();
 
+		new SAD_Withdrawal_Handler();
+
 	}
 
 	/**
@@ -148,6 +150,11 @@ class SAD_Workflow_Manager {
 		 * The class responsible for workflow dashboard widget.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-sad-workflow-dashboard.php';
+
+		/**
+		 * The class responsible for article withdrawal.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-sad-withdrawal-handler.php';
 
 
 		$this->loader = new SAD_Workflow_Loader();
@@ -240,6 +247,12 @@ class SAD_Workflow_Manager {
 		$webhook_dispatcher = new SAD_Webhook_Dispatcher();
 		$this->loader->add_action( 'add_meta_boxes', $webhook_dispatcher, 'add_meta_box' );
         $this->loader->add_action( 'wp_ajax_sad_send_webhook', $webhook_dispatcher, 'ajax_send_webhook' );
+		
+		// Trigger webhook after Quick Submit article creation (fires with complete metadata and files)
+		$this->loader->add_action( 'sad_after_quick_submit', $webhook_dispatcher, 'trigger_on_quick_submit', 10, 3 );
+
+		// Trigger webhook after Admin creation
+		$this->loader->add_action( 'save_post_scholarly_article', $webhook_dispatcher, 'trigger_on_save', 10, 3 );
 
 	}
 

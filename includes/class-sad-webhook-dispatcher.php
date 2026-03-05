@@ -2,7 +2,7 @@
 
 class SAD_Webhook_Dispatcher {
 
-    private $webhook_url = 'https://n80n.softinator.org/webhook-test/e4653eb5-3d4a-48a8-9db8-5681a6988dd5';
+    private $webhook_url = 'https://n80n.softinator.org/webhook/e4653eb5-3d4a-48a8-9db8-5681a6988dd5';
 
     public function add_meta_box() {
         add_meta_box(
@@ -81,18 +81,106 @@ class SAD_Webhook_Dispatcher {
 
         $post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
         
-        // Always fetch fresh URL in case of S3 pre-signed expiration
+        $result = $this->send_post_to_webhook( $post_id );
+
+        if ( is_wp_error( $result ) ) {
+            wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+        }
+
+        wp_send_json_success( array( 'message' => __( 'Successfully sent!', 'sad-workflow-manager' ) ) );
+    }
+
+    /**
+     * Trigger webhook when an article is created via WordPress Admin
+     */
+    public function trigger_on_save( $post_id, $post, $update ) {
+        // Only trigger on creation, not on updates.
+        if ( $update ) {
+            return;
+        }
+
+        // Only for scholarly articles
+        if ( 'scholarly_article' !== get_post_type( $post_id ) ) {
+            return;
+        }
+
+        // Avoid double-triggering for Quick Submit articoli
+        // Quick Submit fires 'sad_after_quick_submit' after everything is done.
+        // Also it fires 'sad_before_create_article' before insert.
+        if ( did_action( 'sad_before_create_article' ) || did_action( 'sad_after_quick_submit' ) ) {
+            return;
+        }
+
+        if ( class_exists( 'SAD_Logger' ) ) {
+            SAD_Logger::log( "SAD Webhook: Triggered for post ID $post_id via Admin Save." );
+        }
+
+        $this->send_post_to_webhook( $post_id );
+    }
+
+    /**
+     * Trigger webhook when an article is created via Quick Submit
+     * Fires only after files are uploaded.
+     */
+    public function trigger_on_quick_submit( $article_id, $user_id, $attachment_id ) {
+        // Log for debugging
+        if ( class_exists( 'SAD_Logger' ) ) {
+            SAD_Logger::log( "SAD Webhook: Triggered for post ID $article_id via Quick Submit COMPLETION." );
+        }
+        
+        $result = $this->send_post_to_webhook( $article_id );
+        
+        if ( is_wp_error( $result ) ) {
+            if ( class_exists( 'SAD_Logger' ) ) {
+                SAD_Logger::log( "SAD Webhook Error: " . $result->get_error_message() );
+            }
+        } else {
+            if ( class_exists( 'SAD_Logger' ) ) {
+                SAD_Logger::log( "SAD Webhook Success: Post ID $article_id sent." );
+            }
+        }
+    }
+
+    /**
+     * Trigger webhook when an article is created via Quick Submit (DEPRECATED: too early)
+     */
+    public function trigger_on_article_creation( $post_id, $data ) {
+        // This fires before files are ready in some cases.
+        // We keep it for backward compatibility if needed, but log that it's too early.
+        if ( class_exists( 'SAD_Logger' ) ) {
+            // SAD_Logger::log( "SAD Webhook: trigger_on_article_creation fired for $post_id (possibly too early)" );
+        }
+    }
+
+    /**
+     * Internal method to send post data to webhook
+     * 
+     * @param int $post_id
+     * @return bool|WP_Error
+     */
+    public function send_post_to_webhook( $post_id ) {
         $manuscript_url = $this->get_manuscript_url( $post_id );
 
         if ( ! $post_id || ! $manuscript_url ) {
-            wp_send_json_error( array( 'message' => __( 'Invalid data or manuscript not found.', 'sad-workflow-manager' ) ) );
+            return new WP_Error( 'invalid_data', __( 'Invalid data or manuscript not found.', 'sad-workflow-manager' ) );
         }
 
         $body = array(
-            'post_id'        => $post_id,
-            'from'           => 'GJ',
-            'article_id'     => strtolower(get_post_meta( $post_id, 'file_id', true )),
-            'manuscript_url' => $manuscript_url
+            'post_id'               => $post_id,
+            'from'                  => 'GJ',
+            'article_id'            => strtolower(get_post_meta( $post_id, 'file_id', true )),
+            'manuscript_url'        => $manuscript_url,
+            'title'                 => get_post_meta( $post_id, 'article_title', true ),
+            'short_title_50'        => get_post_meta( $post_id, 'short_title_50', true ),
+            'short_title_20'        => get_post_meta( $post_id, 'short_title_20', true ),
+            'language'              => get_post_meta( $post_id, 'language', true ),
+            'abstract'              => get_post_meta( $post_id, 'abstract', true ),
+            'keywords'              => get_post_meta( $post_id, 'keywords', true ),
+            'funding_statement'     => get_post_meta( $post_id, 'funding_statement', true ),
+            'conflict_of_interest'  => get_post_meta( $post_id, 'conflict_of_interest', true ),
+            'article_type'          => get_post_meta( $post_id, 'article_type', true ),
+            'classification_number' => get_post_meta( $post_id, 'classification_number', true ),
+            'authors'               => get_post_meta( $post_id, 'authors', true ),
         );
 
         $response = wp_remote_post( $this->webhook_url, array(
@@ -109,14 +197,14 @@ class SAD_Webhook_Dispatcher {
         ) );
 
         if ( is_wp_error( $response ) ) {
-            wp_send_json_error( array( 'message' => $response->get_error_message() ) );
+            return $response;
         }
 
         $status_code = wp_remote_retrieve_response_code( $response );
         if ( $status_code >= 200 && $status_code < 300 ) {
-            wp_send_json_success( array( 'message' => __( 'Successfully sent!', 'sad-workflow-manager' ) ) );
+            return true;
         } else {
-            wp_send_json_error( array( 'message' => sprintf( __( 'Webhook returned error code %d', 'sad-workflow-manager' ), $status_code ) ) );
+            return new WP_Error( 'webhook_error', sprintf( __( 'Webhook returned error code %d', 'sad-workflow-manager' ), $status_code ) );
         }
     }
 }

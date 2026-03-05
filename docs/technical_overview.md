@@ -19,8 +19,10 @@ The **SAD Workflow Manager** handles automated tagging and workflow transitions 
 | `includes/class-sad-integration.php`       | `SAD_Integration`       | **SYNC LOGIC**. Listens to external events (Ticket/Invoice saves) to update article tags. |
 | `includes/class-sad-admin.php`             | `SAD_Workflow_Admin`    | Admin UI logic for the Rule Builder page and displaying tags in the post list.            |
 | `includes/class-sad-activity-log.php`      | `SAD_Activity_Log`      | Displays the "Outliny Activity Log" meta box on article edit screens.                     |
-| `includes/class-sad-workflow-taxonomy.php` | `SAD_Workflow_Taxonomy` | Registers the private `article_progress` taxonomy.                                        |
+| `includes/class-sad-workflow-cron.php` | `SAD_Workflow_Cron` | **CRON LOGIC**. Automated tracking of deadlines and applying warning tags. |
 | `includes/class-sad-webhook-dispatcher.php` | `SAD_Webhook_Dispatcher` | Handles the "Webhook Dispatcher" meta box and POST requests to external webhooks.         |
+| `includes/class-sad-withdrawal-handler.php` | `SAD_Withdrawal_Handler` | **WITHDRAWAL LOGIC**. Handles multi-step article removal and status rejection.           |
+| `bin/workflow-cron.php`                   | N/A                     | Standalone CLI script to trigger the daily workflow check.                                |
 
 ## 3. Core Logic Breakdown
 
@@ -126,19 +128,84 @@ The **Webhook Dispatcher** provides a manual trigger for administrators to send 
 ### B. AJAX Workflow
 1. **Trigger**: User clicks "Send to Webhook".
 2. **fresh Fetch**: Re-fetches the manuscript URL (ensuring S3 pre-signed links are fresh).
-3. **Dispatch**: Sends a `POST` request to `https://n80n.softinator.org/webhook-test/e4653eb5-3d4a-48a8-9db8-5681a6988dd5` with JSON payload:
+3. **Dispatch**: Sends a `POST` request to the configured webhook URL (e.g., n8n) with JSON payload containing article metadata.
    ```json
    {
      "post_id": 123,
-     "manuscript_url": "https://..."
+     "from": "GJ",
+     "article_id": "ebku24",
+     "manuscript_url": "https://...",
+     "title": "...",
+     "short_title_50": "...",
+     "authors": [...]
    }
    ```
 4. **Response**: Displays success/error message directly in the meta box.
 
-### C. Configuration
-The Webhook URL is currently hardcoded in the dispatcher class. To change it:
-- **File**: `includes/class-sad-webhook-dispatcher.php`
-- **Variable**: `$webhook_url` property at the top of the class.
+### C. Automated Triggers
+The Webhook Dispatcher is triggered automatically upon article creation and update in three ways:
+1.  **Quick Submit**: Triggered via the `sad_after_quick_submit` action hook. This is fired after all file uploads (Wasabi/S3) are complete, ensuring the manuscript URL is available.
+2.  **Admin Creation**: Triggered via the `save_post_scholarly_article` hook when an administrator creates a new article manually in the WordPress backend.
+3.  **Update Endpoint**: Triggered via the `update_article_endpoint` REST API method after article metadata and authors are updated from external systems.
 
-### D. Purpose
-This component is used to trigger external automation flows (like n8n or Zapier) that require the Article ID and the latest Manuscript file link. By clicking the button, the system generates a fresh pre-signed S3 URL for Wasabi files, ensuring the external system has permission to download the file immediately.
+### D. Implementation Details
+The dispatcher uses public methods which can be used to trigger the webhook:
+- `send_post_to_webhook($post_id)`: Main public method to dispatch the webhook for a specific article.
+- `trigger_on_quick_submit($article_id, $user_id, $attachment_id)`: Hooked to `sad_after_quick_submit`.
+- `trigger_on_save($post_id, $post, $update)`: Hooked to `save_post_scholarly_article` (priority 10). Only triggers on creation (`$update = false`).
+
+Other components can also trigger this logic by calling:
+```php
+if ( class_exists( 'SAD_Webhook_Dispatcher' ) ) {
+    $webhook = new SAD_Webhook_Dispatcher();
+    $webhook->send_post_to_webhook( $post_id );
+}
+```
+
+### E. Purpose
+This component is used to trigger external automation flows (like n8n or Zapier) that require the Article ID and the latest Manuscript file link. By clicking the button or via automated triggers, the system generates a fresh pre-signed S3 URL for Wasabi files, ensuring the external system has permission to download the file immediately.
+
+## 7. Article Withdrawal (`SAD_Withdrawal_Handler`)
+
+The **Article Withdrawal** feature allows administrators to purge an article and its associated data when a submission is withdrawn.
+
+### A. Process Workflow
+The withdrawal is a multi-step AJAX process to ensure reliability and provide feedback:
+
+1.  **Confirmation**: User must type "WITHDRAW" in a modal to proceed.
+2.  **Author Cleanup**: 
+    - Identifies all authors (primary and co-authors) associated with the article.
+    - Checks if each author is linked to any *other* `scholarly_article`.
+    - If the author is unique to this article and has the `sad_author` role, the WordPress user account is deleted.
+3.  **File Cleanup**:
+    - **file-sync**: Iterates through all configured post type fields and deletes files from S3/External storage via `GJDL_File_Manager`.
+    - **author-dashboard**: Removes files stored in `_sad_article_files` and their S3 objects.
+    - **WP Media**: Deletes all WordPress attachments where the article is the parent.
+4.  **CDN Purge**: Purges Cloudflare cache for all removed file URLs.
+5.  **Status Finalization**: Forces the article status to `rejected`.
+
+### B. Implementation Details
+- **CSS**: `admin/css/sad-withdrawal.css`
+- **JS**: `admin/js/sad-withdrawal.js`
+- **AJAX Actions**:
+    - `sad_withdraw_cleanup_authors`
+    - `sad_withdraw_cleanup_files`
+    - `sad_withdraw_finalize_status`
+- **Meta Box**: Added to the `side` context of the `scholarly_article` editor.
+- **Reference**: Managed via `includes/class-sad-withdrawal-handler.php`.
+
+## 8. Automated Cover Generation (`genrate_coverpage.php`)
+
+The system includes a dedicated utility (`genrate_coverpage.php`) required by the theme's `functions.php` to handle automated thumbnail generation from PDF files.
+
+### A. Scholarly Articles
+- **Trigger**: `save_post_scholarly_article` and `pods_api_post_save_pod_item_scholarly_article`.
+- **Logic**:
+  - Checks if the `article_image` meta field is empty.
+  - Retrieves the PDF URL from `research_article_pdf_url` (or `_research_article_pdf_url`).
+  - Processes the PDF using `Imagick` to extract the first page.
+  - Saves the generated JPG as a WordPress attachment and updates `article_image` with the Attachment ID.
+
+### B. Journal Issues
+- **Trigger**: `edited_journal_issue`, `pods_api_post_save_pod_item_journal_issue`, and term meta update hooks.
+- **Logic**: Similar to articles, it checks the `cover_page` meta field and uses `ejournal_pdf_url` to generate the thumbnail.

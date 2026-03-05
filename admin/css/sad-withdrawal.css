@@ -1,0 +1,162 @@
+/* SAD Withdrawal Modal Styles */
+.sad-withdraw-modal {
+    position: fixed;
+    z-index: 999999;
+    /* Even higher */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    /* jQuery handles this */
+    align-items: center;
+    justify-content: center;
+}
+
+.sad-withdraw-modal-content {
+    background-color: #fefefe;
+    margin: 0 auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sad-withdraw-modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sad-withdraw-modal-header h2 {
+    margin: 0;
+}
+
+.sad-withdraw-modal-close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sad-withdraw-modal-close:hover {
+    color: black;
+}
+
+.sad-withdraw-modal-body {
+    padding: 20px;
+}
+
+.sad-withdraw-modal-footer {
+    padding: 15px 0;
+    text-align: right;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+/* Progress Steps */
+.sad-progress-steps {
+    margin-bottom: 20px;
+}
+
+.sad-progress-step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+.sad-step-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    background: #eee;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+
+.sad-step-icon:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sad-progress-step.success .sad-step-icon {
+    background: #4caf50;
+}
+
+.sad-progress-step.success .sad-step-icon:after {
+    content: '✓';
+    color: white;
+}
+
+.sad-progress-step.error .sad-step-icon {
+    background: #f44336;
+}
+
+.sad-progress-step.error .sad-step-icon:after {
+    content: '×';
+    color: white;
+}
+
+.sad-progress-step.active .sad-step-icon {
+    background: #2196f3;
+}
+
+.sad-progress-step.active .sad-step-icon:after {
+    content: '...';
+    color: white;
+    font-size: 10px;
+}
+
+/* Logs Container */
+.sad-logs-container {
+    background: #1e1e1e;
+    color: #00ff00;
+    font-family: monospace;
+    padding: 15px;
+    height: 150px;
+    overflow-y: auto;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.sad-logs-container p {
+    margin: 0 0 5px 0;
+}
+
+/* Success Message */
+.sad-success-message {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.sad-success-message .dashicons {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #4caf50;
+    margin-bottom: 15px;
+}
+
+.sad-withdrawal-container {
+    padding: 10px 0;
+}
+
+.button-link-delete:hover {
+    color: #a00 !important;
+}
