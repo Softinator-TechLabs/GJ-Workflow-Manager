@@ -178,8 +178,9 @@ The withdrawal is a multi-step AJAX process to ensure reliability and provide fe
     - Checks if each author is linked to any *other* `scholarly_article`.
     - If the author is unique to this article and has the `sad_author` role, the WordPress user account is deleted.
 3.  **File Cleanup**:
-    - **file-sync**: Iterates through all configured post type fields and deletes files from S3/External storage via `GJDL_File_Manager`.
-    - **author-dashboard**: Removes files stored in `_sad_article_files` and their S3 objects.
+    - **file-sync**: Iterates through all configured post type fields and deletes files from S3/External storage via `GJDL_File_Manager`. This method automatically detects the correct bucket from the file URL.
+    - **author-dashboard**: Removes files stored in `_sad_article_files` and their S3 objects. This process is **bucket-aware** and uses the `s3_bucket` metadata to target the correct storage (Private, Public, or Image).
+    - **Prefix-based Removal**: Performs an exhaustive search and destroy for all objects matching the article's unique prefix (e.g., `jid_123/`) across **all three configured buckets** to ensure no orphaned or temporary files remain.
     - **WP Media**: Deletes all WordPress attachments where the article is the parent.
 4.  **CDN Purge**: Purges Cloudflare cache for all removed file URLs.
 5.  **Status Finalization**: Forces the article status to `rejected`.

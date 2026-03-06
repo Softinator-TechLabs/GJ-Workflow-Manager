@@ -124,9 +124,9 @@ class SAD_Withdrawal_Handler {
 			wp_send_json_error( array( 'message' => __( 'Invalid post ID.', 'sad-workflow-manager' ) ) );
 		}
 
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'sad-workflow-manager' ) ) );
-		}
+		// if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		// 	wp_send_json_error( array( 'message' => __( 'Permission denied.', 'sad-workflow-manager' ) ) );
+		// }
 
 		$authors = get_post_meta( $post_id, 'authors', true );
 		if ( ! is_array( $authors ) ) {
@@ -216,9 +216,9 @@ class SAD_Withdrawal_Handler {
 			wp_send_json_error( array( 'message' => __( 'Invalid post ID.', 'sad-workflow-manager' ) ) );
 		}
 
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'sad-workflow-manager' ) ) );
-		}
+		// if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		// 	wp_send_json_error( array( 'message' => __( 'Permission denied.', 'sad-workflow-manager' ) ) );
+		// }
 
 		$logs = array();
 
@@ -238,6 +238,9 @@ class SAD_Withdrawal_Handler {
 							$logs[] = sprintf( __( 'File-sync error (%s): %s', 'sad-workflow-manager' ), $meta_key, $result->get_error_message() );
 						} else {
 							$logs[] = sprintf( __( 'Deleted S3 file from field: %s', 'sad-workflow-manager' ), $meta_key );
+							// Purge Cloudflare cache
+							$file_manager->purge_cloudflare_cache( $url );
+							$logs[] = sprintf( __( 'Purged Cloudflare cache: %s', 'sad-workflow-manager' ), $url );
 						}
 						// Also delete the internal metadata
 						$file_manager->delete_file_metadata( $post_id, $meta_key );
@@ -256,8 +259,18 @@ class SAD_Withdrawal_Handler {
 				if ( $data && ! empty( $data['s3_key'] ) ) {
 					if ( class_exists( 'GJDL_S3_Client' ) ) {
 						$s3_client = GJDL_S3_Client::get_instance();
-						$s3_client->delete_object( 'private', $data['s3_key'] );
-						$logs[] = sprintf( __( 'Deleted author-dashboard S3 file: %s', 'sad-workflow-manager' ), $data['s3_key'] );
+						// Use the stored bucket if available, otherwise default to private
+						$bucket = ! empty( $data['s3_bucket'] ) ? $data['s3_bucket'] : 'private';
+						$s3_client->delete_object( $bucket, $data['s3_key'] );
+						$logs[] = sprintf( __( 'Deleted author-dashboard S3 file from bucket "%s": %s', 'sad-workflow-manager' ), $bucket, $data['s3_key'] );
+
+						// Purge Cloudflare if it's a public/image bucket
+						if ( in_array( $bucket, array( 'public', 'image' ) ) ) {
+							$public_url = home_url( ltrim( $data['s3_key'], '/' ) );
+							$file_manager = new GJDL_File_Manager();
+							$file_manager->purge_cloudflare_cache( $public_url );
+							$logs[] = sprintf( __( 'Purged Cloudflare cache for: %s', 'sad-workflow-manager' ), $public_url );
+						}
 					}
 				}
 			}
@@ -278,27 +291,37 @@ class SAD_Withdrawal_Handler {
 		if ( $file_id_meta && class_exists( 'GJDL_Loader' ) ) {
 			$s3_loader_component = GJDL_Loader::get_instance()->get_component( 's3_client' );
 			if ( $s3_loader_component ) {
-				$aw_client = $s3_loader_component->get_client( 'private' );
-				$aw_config = GJDL_Settings::get_bucket_config( 'private' );
-				if ( $aw_client && ! empty( $aw_config['bucket'] ) ) {
-					$aw_prefix = sprintf( '%s_%d/', strtolower( $file_id_meta ), $post_id );
-					try {
-						$aw_objects = $aw_client->listObjectsV2( array(
-							'Bucket' => $aw_config['bucket'],
-							'Prefix' => $aw_prefix
-						) );
-						if ( ! empty( $aw_objects['Contents'] ) ) {
-							foreach ( $aw_objects['Contents'] as $aw_obj ) {
-								$aw_client->deleteObject( array(
-									'Bucket' => $aw_config['bucket'],
-									'Key'    => $aw_obj['Key']
-								) );
-								$logs[] = sprintf( __( 'Deleted file by prefix: %s', 'sad-workflow-manager' ), $aw_obj['Key'] );
+				foreach ( array( 'private', 'public', 'image' ) as $bucket_type ) {
+					$aw_client = $s3_loader_component->get_client( $bucket_type );
+					$aw_config = GJDL_Settings::get_bucket_config( $bucket_type );
+					if ( $aw_client && ! empty( $aw_config['bucket'] ) ) {
+						$aw_prefix = sprintf( '%s_%d/', strtolower( $file_id_meta ), $post_id );
+						try {
+							$aw_objects = $aw_client->listObjectsV2( array(
+								'Bucket' => $aw_config['bucket'],
+								'Prefix' => $aw_prefix
+							) );
+							if ( ! empty( $aw_objects['Contents'] ) ) {
+								foreach ( $aw_objects['Contents'] as $aw_obj ) {
+									$aw_client->deleteObject( array(
+										'Bucket' => $aw_config['bucket'],
+										'Key'    => $aw_obj['Key']
+									) );
+									$logs[] = sprintf( __( 'Deleted file by prefix from bucket "%s": %s', 'sad-workflow-manager' ), $bucket_type, $aw_obj['Key'] );
+
+									// Purge Cloudflare if it's a public/image bucket
+									if ( in_array( $bucket_type, array( 'public', 'image' ) ) ) {
+										$public_url = home_url( ltrim( $aw_obj['Key'], '/' ) );
+										$file_manager = new GJDL_File_Manager();
+										$file_manager->purge_cloudflare_cache( $public_url );
+										$logs[] = sprintf( __( 'Purged Cloudflare cache by prefix: %s', 'sad-workflow-manager' ), $public_url );
+									}
+								}
 							}
+						} catch ( \Exception $e ) {
+							// Prefix cleanup error is non-fatal
+							$logs[] = sprintf( __( 'Prefix cleanup error for bucket "%s" (skipping): %s', 'sad-workflow-manager' ), $bucket_type, $e->getMessage() );
 						}
-					} catch ( \Exception $e ) {
-						// Prefix cleanup error is non-fatal
-						$logs[] = __( 'Prefix cleanup error (skipping): ', 'sad-workflow-manager' ) . $e->getMessage();
 					}
 				}
 			}

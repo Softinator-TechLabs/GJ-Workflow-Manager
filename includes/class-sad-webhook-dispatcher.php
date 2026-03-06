@@ -179,8 +179,11 @@ class SAD_Webhook_Dispatcher {
             'funding_statement'     => get_post_meta( $post_id, 'funding_statement', true ),
             'conflict_of_interest'  => get_post_meta( $post_id, 'conflict_of_interest', true ),
             'article_type'          => get_post_meta( $post_id, 'article_type', true ),
-            'classification_number' => get_post_meta( $post_id, 'classification_number', true ),
-            'authors'               => get_post_meta( $post_id, 'authors', true ),
+            'classification_number' => get_post_meta( $post_id, 'classification_number', true ) ?: get_post_meta( $post_id, 'classification', true ),
+            'banner_image'          => get_post_meta( $post_id, 'banner_image', true ),
+            'feature_image'         => get_post_meta( $post_id, 'feature_image', true ),
+            'authors'               => $this->get_formatted_authors( $post_id ),
+            'et_al'                 => get_post_meta( $post_id, 'et_al', true ),
         );
 
         $response = wp_remote_post( $this->webhook_url, array(
@@ -206,5 +209,53 @@ class SAD_Webhook_Dispatcher {
         } else {
             return new WP_Error( 'webhook_error', sprintf( __( 'Webhook returned error code %d', 'sad-workflow-manager' ), $status_code ) );
         }
+    }
+
+    /**
+     * Get formatted authors with all details for webhook
+     * 
+     * @param int $post_id
+     * @return array
+     */
+    private function get_formatted_authors( $post_id ) {
+        $authors_raw = get_post_meta( $post_id, 'authors', true );
+        $formatted = array();
+
+        if ( is_array( $authors_raw ) ) {
+            foreach ( $authors_raw as $author ) {
+                if ( ! is_array( $author ) ) {
+                    // Try to handle if it's just a user ID (unlikely in this context but safe)
+                    if ( is_numeric( $author ) ) {
+                        $user = get_userdata( $author );
+                        if ( $user ) {
+                            $formatted[] = array(
+                                'first_name' => $user->first_name,
+                                'last_name'  => $user->last_name,
+                                'email'      => $user->user_email,
+                                'university' => get_user_meta( $user->ID, 'university', true ) ?: get_user_meta( $user->ID, 'affiliation', true ),
+                                'country'    => get_user_meta( $user->ID, 'country', true ) ?: get_user_meta( $user->ID, 'softinator_shipping_country', true ),
+                                'biography'  => get_user_meta( $user->ID, 'description', true ),
+                            );
+                        }
+                    }
+                    continue;
+                }
+
+                $formatted[] = array(
+                    'first_name'       => $author['first_name'] ?? '',
+                    'last_name'        => $author['last_name'] ?? '',
+                    'email'            => $author['email'] ?? '',
+                    'university'       => $author['institution'] ?? ( $author['university'] ?? '' ),
+                    'department'       => $author['department'] ?? '',
+                    'country'          => $author['country'] ?? '',
+                    'orcid'            => $author['orcid'] ?? '',
+                    'biography'        => $author['biography'] ?? '',
+                    'role'             => $author['role'] ?? '',
+                    'is_corresponding' => ! empty( $author['is_corresponding'] ),
+                );
+            }
+        }
+
+        return $formatted;
     }
 }
